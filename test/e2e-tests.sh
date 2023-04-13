@@ -98,7 +98,9 @@ test_dashboard() {
     CYPRESS_SPEC='-- --spec cypress/e2e/common/**/*'
   fi
   chmod 644 ~/.kube/config
-  docker run --rm --network=host $CYPRESS_ENV -v ~/.kube:/home/node/.kube --env KUBECONFIG=/home/node/.kube/config -v $VIDEO_PATH:/home/node/cypress/videos dashboard-e2e $CYPRESS_SPEC || fail_test "Browser E2E tests failed"
+  ls -l /root/.kube/
+  chmod 644 /root/.kube/config
+  docker run --rm --network=host $CYPRESS_ENV -v /root/.kube:/home/node/.kube --env KUBECONFIG=/home/node/.kube/config -v $VIDEO_PATH:/home/node/cypress/videos dashboard-e2e $CYPRESS_SPEC || fail_test "Browser E2E tests failed"
   # If we get here the tests passed, no need to upload artifacts
   if [ ! -z "$VIDEO_PATH" ]; then
     rm -rf $VIDEO_PATH
