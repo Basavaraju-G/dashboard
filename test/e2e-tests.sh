@@ -99,7 +99,7 @@ test_dashboard() {
   fi
   
   ls -l /root/.kube/
-  sleep 3h
+  
   docker run --rm --network=host $CYPRESS_ENV -v /root/.kube:/home/node/.kube --env KUBECONFIG=/home/node/.kube/config -v $VIDEO_PATH:/home/node/cypress/videos dashboard-e2e $CYPRESS_SPEC || fail_test "Browser E2E tests failed"
   # If we get here the tests passed, no need to upload artifacts
   if [ ! -z "$VIDEO_PATH" ]; then
@@ -111,6 +111,7 @@ test_dashboard() {
 }
 
 header "Building browser E2E image"
+sleep 3h
 docker build -t dashboard-e2e packages/e2e || fail_test "Failed building browser E2E image"
 
 if [ -z "$PIPELINES_VERSION" ]; then
